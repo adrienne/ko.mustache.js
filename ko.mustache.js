@@ -35,21 +35,33 @@
 //     If you don't want to allow that, you can set the property 'allowTemplateRewriting' to false (like ko.nativeTemplateEngine does)
 //     and then you don't need to override 'createJavaScriptEvaluatorBlock'.
 
-ko.mustacheTemplateEngine = function () { }
-
-ko.mustacheTemplateEngine.prototype = ko.utils.extend(new ko.templateEngine(), {
+;(function(factory) {
+    if (typeof define === 'function' && define['amd']) {
+        // [1] AMD anonymous module
+        define(['knockout'], factory);
+    } else {
+        // [2] No module loader (plain <script> tag) - put directly in global namespace
+        factory(window['ko']);
+    }
+})(function(ko) {
 	
-	renderTemplateSource: function (templateSource, bindingContext, options) {
-		var data = bindingContext.$data;
-		var templateText = templateSource.text();		
-		var htmlResult = Mustache.to_html(templateText, data);
+	ko.mustacheTemplateEngine = function () { }
+	
+	ko.mustacheTemplateEngine.prototype = ko.utils.extend(new ko.templateEngine(), {
 		
-		return ko.utils.parseHtmlFragment(htmlResult);
-	},
-
-	allowTemplateRewriting: false,
+		renderTemplateSource: function (templateSource, bindingContext, options) {
+			var data = bindingContext.$data;
+			var templateText = templateSource.text();		
+			var htmlResult = Mustache.to_html(templateText, data);
+			
+			return ko.utils.parseHtmlFragment(htmlResult);
+		},
 	
-	version: '0.9.0'
+		allowTemplateRewriting: false,
+		
+		version: '0.9.0'
+	
+	});
 
 });
 
