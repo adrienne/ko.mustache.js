@@ -38,12 +38,12 @@
 ;(function(factory) {
     if (typeof define === 'function' && define['amd']) {
         // [1] AMD anonymous module
-        define(['knockout'], factory);
+        define(['knockout','mustache'], factory);
     } else {
         // [2] No module loader (plain <script> tag) - put directly in global namespace
         factory(window['ko']);
     }
-})(function(ko) {
+})(function(ko,Mustache) {
 	
 	ko.mustacheTemplateEngine = function () { }
 	
